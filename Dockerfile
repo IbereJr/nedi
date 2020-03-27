@@ -23,7 +23,8 @@ RUN apk --no-cache add php7 php7-fpm php7-mysqli php7-json php7-openssl php7-cur
 RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime &&\
     echo "America/Sao_Paulo" > /etc/timezone &&\
     mkdir -p /etc/crontabs && apk del tzdata 
-COPY config/nedi_crontab /etc/crontabs/root && /usr/sbin/crond -f
+COPY config/nedi_crontab /etc/crontabs/root
+RUN  /usr/sbin/crond -f
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
