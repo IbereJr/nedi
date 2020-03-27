@@ -1,0 +1,44 @@
+version: '2'
+
+services:
+  nedi:
+    container_name: nedi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:8080
+      - 443:8443
+      - 162:162/udp
+      - 514:514/udp
+    volumes:
+      - ./nedi_data:/data/dados
+    environment: 
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_NAME=nedi
+      - DB_USER=nedi
+      - DB_PASS=nedi
+      - ROOT_PASS=mdbrootpw
+    restart: always
+    #    networks:
+    #  - proxy-tier
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mdbrootpw
+      - MYSQL_DATABASE=nedi
+      - MYSQL_USER=nedi
+      - MYSQL_PASSWORD=nedi
+     #   networks:
+     #  - proxy-tier
+
+#networks:
+# proxy-tier:
+#   external:
+#     name: nginx-proxy
