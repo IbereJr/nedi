@@ -17,8 +17,13 @@ ENV DB_HOST=mariadb \
 RUN apk --no-cache add php7 php7-fpm php7-mysqli php7-json php7-openssl php7-curl \
     php7-zlib php7-xml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-session \
     php7-mbstring php7-gd php7-snmp nginx supervisor curl openssl perl-algorithm-diff \
-    perl-dbd-mysql perl-dbi perl-net-snmp perl-net-telnet perl-rrd perl-socket6 
+    perl-dbd-mysql perl-dbi perl-net-snmp perl-net-telnet perl-rrd perl-socket6 tzdata
 
+# Adjust crontab
+RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime &&\
+    echo "America/Sao_Paulo" > /etc/timezone &&\
+    apk del tzdata 
+COPY config/nedi_crontab /etc/crontabs/root && /usr/sbin/crond -f
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
