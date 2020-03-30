@@ -65,7 +65,7 @@ RUN chown -R nedi.nedi /run && \
   chown -R nedi.nedi /var/log/nginx
 
 # Switch to use a non-root user from here on
-USER nedi
+#USER nedi
 
 ### Networking Configuration
 EXPOSE 8080 162/UDP 8443 1514/UDP
